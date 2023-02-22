@@ -1,8 +1,12 @@
 const HDWalletProvider = require("truffle-hdwallet-provider");
+require('dotenv').config();
 
 const MNEMONIC = process.env.MNEMONIC;
+console.log(`${process.env.INFURA_KEY} || ${process.env.ALCHEMY_KEY}`)
 const NODE_API_KEY = process.env.INFURA_KEY || process.env.ALCHEMY_KEY;
 const isInfura = !!process.env.INFURA_KEY;
+
+console.log('RUN DEBUG', {MNEMONIC, NODE_API_KEY, isInfura})
 
 const needsNodeAPI =
   process.env.npm_config_argv &&
@@ -22,20 +26,36 @@ const mainnetNodeUrl = isInfura
   ? "https://mainnet.infura.io/v3/" + NODE_API_KEY
   : "https://eth-mainnet.alchemyapi.io/v2/" + NODE_API_KEY;
 
+
+const goerliNodeUrl = isInfura
+  ? "https://goerli.infura.io/v3/" + NODE_API_KEY
+  : "https://eth-goerli.g.alchemy.com/v2/" + NODE_API_KEY;
+
+
 module.exports = {
   networks: {
-    development: {
-      host: "localhost",
-      port: 7545,
-      gas: 5000000,
-      network_id: "*", // Match any network id
-    },
+    // development: {
+    //   host: "localhost",
+    //   port: 7545,
+    //   gas: 5000000,
+    //   network_id: "*", // Match any network id
+    // },
     rinkeby: {
       provider: function () {
+        console.log('RUN 2 ', rinkebyNodeUrl)
         return new HDWalletProvider(MNEMONIC, rinkebyNodeUrl);
       },
       gas: 5000000,
       network_id: 4,
+    },
+    goerli: {
+      network_id: 5,
+      provider: function () {
+        console.log('RUN 1 ', goerliNodeUrl)
+        return new HDWalletProvider(MNEMONIC, goerliNodeUrl);
+      },
+      networkCheckTimeout: 9000000000,
+      gas: 5000000,
     },
     live: {
       network_id: 1,

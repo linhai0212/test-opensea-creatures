@@ -10,7 +10,7 @@ import "./ERC721Tradable.sol";
  */
 contract Creature is ERC721Tradable {
     constructor(address _proxyRegistryAddress)
-        ERC721Tradable("Creature", "OSC", _proxyRegistryAddress)
+        ERC721Tradable("Test Kami's NFT", "TKNCOIN", _proxyRegistryAddress)
     {}
 
     function baseTokenURI() override public pure returns (string memory) {
@@ -18,6 +18,6 @@ contract Creature is ERC721Tradable {
     }
 
     function contractURI() public pure returns (string memory) {
-        return <contractUrlHere>;
+        return "http://tvtou.com/tkncoin";
     }
 }
